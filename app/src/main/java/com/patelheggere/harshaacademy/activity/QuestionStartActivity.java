@@ -1,4 +1,4 @@
-package com.patelheggere.harshaacademy;
+package com.patelheggere.harshaacademy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.patelheggere.harshaacademy.MCQFragment;
+import com.patelheggere.harshaacademy.R;
 import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionStartActivity extends AppCompatActivity implements MCQFragment.updateCheckedAnswer{
+public class QuestionStartActivity extends AppCompatActivity implements MCQFragment.updateCheckedAnswer {
     private static final String TAG = "QuestionStartActivity";
 
     private Button buttonPrev, buttonNext, buttonClear;
@@ -25,7 +27,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_question_start);
         initView();
         initListener();
         initData();
@@ -126,6 +128,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQFragm
         ft.replace(R.id.detailscontainer, fragment, null);
       //  ft.addToBackStack(null);
         ft.commit();
+        mTextViewQuestionNumber.setText("Question ("+ (questionIndex+1) +"/"+mQuestionList.size()+")");
     }
 
     @Override

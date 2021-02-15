@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HarshaAcademy">
-        <activity android:name=".QuestionStartActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main"></activity>
+        <activity android:name=".activity.QuestionStartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

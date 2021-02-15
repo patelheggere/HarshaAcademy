@@ -9,11 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.patelheggere.poicollection.utils.SharedPrefsHelper;
 
 import java.util.Locale;
 
-import static com.patelheggere.poicollection.utils.AppUtils.Constants.LANGUAGE_SELECTED;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -47,12 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onStart();
     }
     public void setLocale() {
-        Locale myLocale = new Locale(SharedPrefsHelper.getInstance().get(LANGUAGE_SELECTED, "ka"));
-        Locale.setDefault(myLocale);
-        Configuration config = new Configuration();
-        config.locale = myLocale;
-        Resources res = getResources();
-        res.updateConfiguration(config, res.getDisplayMetrics());
+
     }
 
     @Override
