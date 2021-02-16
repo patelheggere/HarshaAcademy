@@ -1,5 +1,6 @@
 package com.patelheggere.harshaacademy.activity.ui.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.patelheggere.harshaacademy.R;
+import com.patelheggere.harshaacademy.activity.QuestionStartActivity;
 
 public class NotificationsFragment extends Fragment {
 
@@ -27,7 +29,14 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textView.setText("Click here to take Test");
+            }
+        });
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), QuestionStartActivity.class);
+                startActivity(intent);
             }
         });
         return root;

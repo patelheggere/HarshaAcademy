@@ -1,5 +1,6 @@
 package com.patelheggere.harshaacademy.activity.ui.dashboard;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +14,23 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.patelheggere.harshaacademy.R;
+import com.skyhope.eventcalenderlibrary.CalenderEvent;
+import com.skyhope.eventcalenderlibrary.model.Event;
 
 
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
+    private View mView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+         mView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        CalenderEvent calenderEvent = mView.findViewById(R.id.calender_event);
+        Event event = new Event(System.currentTimeMillis(), "Test");
+// to set desire day time milli second in first parameter
+//or you set color for each event
+        Event event2 = new Event(System.currentTimeMillis(), "Test", Color.RED);
+        calenderEvent.addEvent(event2);
+        return mView;
     }
 }
