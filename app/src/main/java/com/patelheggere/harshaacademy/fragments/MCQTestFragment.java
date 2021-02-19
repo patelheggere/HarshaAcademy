@@ -1,4 +1,4 @@
-package com.patelheggere.harshaacademy;
+package com.patelheggere.harshaacademy.fragments;
 
 import android.os.Bundle;
 
@@ -13,9 +13,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.patelheggere.harshaacademy.R;
 import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 
-public class MCQFragment extends Fragment {
+public class MCQTestFragment extends Fragment {
     private static final String TAG = "MCQFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -28,12 +29,12 @@ public class MCQFragment extends Fragment {
     private TextView mTextViewQuestion;
     private updateCheckedAnswer mListener;
     private ImageView questionImageView;
-    public MCQFragment() {
+    public MCQTestFragment() {
         // Required empty public constructor
     }
 
-    public static MCQFragment newInstance(String param1, String param2) {
-        MCQFragment fragment = new MCQFragment();
+    public static MCQTestFragment newInstance(String param1, String param2) {
+        MCQTestFragment fragment = new MCQTestFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -115,5 +116,10 @@ public class MCQFragment extends Fragment {
 
     public interface updateCheckedAnswer {
         void click(MCQQuestionModel mcqQuestionModel);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }
