@@ -17,6 +17,7 @@ import com.patelheggere.harshaacademy.fragments.MCQReviewFragment;
 import com.patelheggere.harshaacademy.fragments.MCQTestFragment;
 import com.patelheggere.harshaacademy.R;
 import com.patelheggere.harshaacademy.model.MCQQuestionModel;
+import com.patelheggere.harshaacademy.model.QuestionMainResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,63 +34,42 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
     int count = 0;
     private boolean isTimeToTakeTest = true;
     private boolean isTestCompleted = false;
-    private long timeAllotedforTest= 60000;
+    private long timeAllotedforTest;
     private boolean isReviewMode;
+    private QuestionMainResponseModel questionMainResponseModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_start);
+        initData();
         initView();
         buttonVisible(false);
         initListener();
-        initData();
+
     }
+    CountDownTimer countDownTimer;
 
     private void initData() {
-        MCQQuestionModel mcqQuestionModel = new MCQQuestionModel();
-        mcqQuestionModel.setTitle("First");
-        List<String> options = new ArrayList<>();
-        options.add("Option1");
-        mcqQuestionModel.setOptions(options);
-        mcqQuestionModel.setIndex(0);
-        mcqQuestionModel.setRightAnswerIndex(0);
-        mQuestionList.add(mcqQuestionModel);
+        questionMainResponseModel = getIntent().getParcelableExtra("QDATA");
+        mQuestionList = questionMainResponseModel.getMcqQuestionModelList();
+        timeAllotedforTest = questionMainResponseModel.getDuration();
 
-        MCQQuestionModel mcqQuestionModel2 = new MCQQuestionModel();
-        mcqQuestionModel2.setTitle("Two");
-        List<String> options2 = new ArrayList<>();
-        options2.add("Option1");
-        options2.add("Option2");
+        countDownTimer = new CountDownTimer(timeAllotedforTest, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long millis = millisUntilFinished;
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                        TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+                mTextViewTimer.setText("Time Remaining: "+hms);
+            }
 
-        mcqQuestionModel2.setOptions(options2);
-        mcqQuestionModel2.setIndex(1);
-        mcqQuestionModel2.setRightAnswerIndex(1);
-        mQuestionList.add(mcqQuestionModel2);
-
-        MCQQuestionModel mcqQuestionModel3 = new MCQQuestionModel();
-        mcqQuestionModel3.setTitle("Three");
-        List<String> options3 = new ArrayList<>();
-        options3.add("Option1");
-        options3.add("Option2");
-        options3.add("Option3");
-
-        mcqQuestionModel3.setOptions(options3);
-        mcqQuestionModel3.setIndex(2);
-        mcqQuestionModel3.setRightAnswerIndex(2);
-        mQuestionList.add(mcqQuestionModel3);
-
-        MCQQuestionModel mcqQuestionModel4 = new MCQQuestionModel();
-        mcqQuestionModel4.setTitle("Four");
-        List<String> options4 = new ArrayList<>();
-        options4.add("Option1");
-        options4.add("Option2");
-        options4.add("Option3");
-        options4.add("Option4");
-        mcqQuestionModel4.setIndex(3);
-        mcqQuestionModel4.setOptions(options4);
-        mcqQuestionModel4.setRightAnswerIndex(3);
-        mQuestionList.add(mcqQuestionModel4);
+            @Override
+            public void onFinish() {
+                submitAnswers();
+            }
+        };
     }
 
     private void initView() {
@@ -105,21 +85,6 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
         mTextViewTimer = findViewById(R.id.timer);
     }
 
-    CountDownTimer countDownTimer = new CountDownTimer(timeAllotedforTest, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            long millis = millisUntilFinished;
-            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
-                    TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                    TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-            mTextViewTimer.setText("Time Remaining: "+hms);
-        }
-
-        @Override
-        public void onFinish() {
-            submitAnswers();
-        }
-    };
     private void initListener() {
         btnTakeTest.setOnClickListener(new View.OnClickListener() {
             @Override
