@@ -18,7 +18,7 @@ public class RetrofitInstance {
     //private static final String BASE_URL = "http://patelheggere.epizy.com/KuduchiAPI/";
     //private static final String BASE_URL = "http://www.prajeev.net/API/";
    // private static final String BASE_URL = "http://kusavinibalaga.org/deduce/endpoints/";
-    private static final String BASE_URL = "http://biglineinfotech.in/deduce/endpoints/";
+    private static final String BASE_URL = "http://192.168.2.22/HarshaCoaching/endpoints/";
 
     //  private static final String BASE_URL = "http://prajeev.net/ktdcl/endpoints/";
 

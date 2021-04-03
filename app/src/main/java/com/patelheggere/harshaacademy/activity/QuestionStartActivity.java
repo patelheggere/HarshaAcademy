@@ -12,16 +12,27 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.patelheggere.harshaacademy.fragments.MCQReviewFragment;
 import com.patelheggere.harshaacademy.fragments.MCQTestFragment;
 import com.patelheggere.harshaacademy.R;
+import com.patelheggere.harshaacademy.model.APIResponseModel;
 import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 import com.patelheggere.harshaacademy.model.QuestionMainResponseModel;
+import com.patelheggere.harshaacademy.network.ApiInterface;
+import com.patelheggere.harshaacademy.network.RetrofitInstance;
+import com.patelheggere.harshaacademy.utils.SharedPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.patelheggere.harshaacademy.utils.Constants.USER_NAME;
 
 public class QuestionStartActivity extends AppCompatActivity implements MCQTestFragment.updateCheckedAnswer, MCQReviewFragment.updateCheckedAnswer2 {
     private static final String TAG = "QuestionStartActivity";
@@ -42,6 +53,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_start);
+        setUpNetwork();
         initData();
         initView();
         buttonVisible(false);
@@ -53,6 +65,10 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
     private void initData() {
         questionMainResponseModel = getIntent().getParcelableExtra("QDATA");
         mQuestionList = questionMainResponseModel.getMcqQuestionModelList();
+        for(int i=0;i<mQuestionList.size(); i++){
+            mQuestionList.get(i).setTestID(questionMainResponseModel.getTestID());
+            mQuestionList.get(i).setUserID(SharedPrefsHelper.getInstance().get(USER_NAME));
+        }
         timeAllotedforTest = questionMainResponseModel.getDuration();
 
         countDownTimer = new CountDownTimer(timeAllotedforTest, 1000) {
@@ -146,7 +162,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
                     }
                 }
                 else {
-                    if (count < mQuestionList.size() - 1) {
+                    if (count < mQuestionList.size()) {
                         count++;
                         if(!isReviewMode)
                         {
@@ -174,8 +190,29 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
         mFrameLayoutContainer.setVisibility(View.GONE);
         buttonVisible(false);
         isTestCompleted = true;
-    }
+        Call<APIResponseModel> call = apiInterface.UploadData(mQuestionList);
+        call.enqueue(new Callback<APIResponseModel>() {
+            @Override
+            public void onResponse(Call<APIResponseModel> call, Response<APIResponseModel> response) {
+                if(response!=null && response.body().isStatus())
+                {
+                    Toast.makeText(QuestionStartActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<APIResponseModel> call, Throwable t) {
+
+            }
+        });
+    }
+    private ApiInterface apiInterface;
+
+    private void setUpNetwork() {
+        RetrofitInstance retrofitInstance = new RetrofitInstance();
+        retrofitInstance.setClient();
+        apiInterface = retrofitInstance.getClient().create(ApiInterface.class);
+    }
     private void buttonVisible(boolean val){
         if(val){
             buttonNext.setVisibility(View.VISIBLE);
@@ -203,7 +240,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
       //  ft.addToBackStack(null);
         ft.commit();
         mTextViewQuestionNumber.setText("Question ("+ (questionIndex+1) +"/"+mQuestionList.size()+")");
-        if(questionIndex==mQuestionList.size()-1){
+        if(questionIndex==mQuestionList.size()){
             buttonNext.setText("Submit");
         }
         else{
@@ -224,7 +261,7 @@ public class QuestionStartActivity extends AppCompatActivity implements MCQTestF
         //  ft.addToBackStack(null);
         ft.commit();
         mTextViewQuestionNumber.setText("Question ("+ (questionIndex+1) +"/"+mQuestionList.size()+")");
-        if(questionIndex==mQuestionList.size()-1){
+        if(questionIndex==mQuestionList.size()){
             buttonNext.setText("Submit");
         }
         else{

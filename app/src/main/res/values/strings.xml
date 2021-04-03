@@ -6,4 +6,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Calendar</string>
     <string name="title_notifications">Notifications</string>
+    <string name="login">Login</string>
+    <string name="correct_username">Enter Valid User name or Mobile number</string>
+    <string name="enter_pwd">Enter Pasword</string>
+    <string name="invalid">invalid credentilas</string>
+    <string name="something_wrong">some thing wrong</string>
+    <string name="username">Username / mobileNo</string>
 </resources>

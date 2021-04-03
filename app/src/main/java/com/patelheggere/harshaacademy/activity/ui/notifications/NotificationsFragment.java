@@ -2,6 +2,7 @@ package com.patelheggere.harshaacademy.activity.ui.notifications;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 import com.patelheggere.harshaacademy.model.QuestionMainResponseModel;
 import com.patelheggere.harshaacademy.network.ApiInterface;
 import com.patelheggere.harshaacademy.network.RetrofitInstance;
+import com.patelheggere.harshaacademy.utils.Constants;
+import com.patelheggere.harshaacademy.utils.SharedPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotificationsFragment extends Fragment {
-
+    private static final String TAG = "NotificationsFragment";
     private View mView;
     private RecyclerView mTestRecyclerView;
 
@@ -46,7 +49,7 @@ public class NotificationsFragment extends Fragment {
     }
 
     private void getTestDataFromServer() {
-        Call<List<QuestionMainResponseModel>> questionMainResponseModel = apiInterface.GetQuestionData("");
+        Call<List<QuestionMainResponseModel>> questionMainResponseModel = apiInterface.GetQuestionData(SharedPrefsHelper.getInstance().get(Constants.USER_NAME));
         questionMainResponseModel.enqueue(new Callback<List<QuestionMainResponseModel>>() {
             @Override
             public void onResponse(Call<List<QuestionMainResponseModel>> call, Response<List<QuestionMainResponseModel>> response) {
@@ -59,11 +62,11 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<QuestionMainResponseModel>> call, Throwable t) {
-
+                Log.d(TAG, "onFailure: "+t.getLocalizedMessage());
             }
         });
 
-        List<MCQQuestionModel> mQuestionList = new ArrayList<>();
+        /*List<MCQQuestionModel> mQuestionList = new ArrayList<>();
 
 
         MCQQuestionModel mcqQuestionModel = new MCQQuestionModel();
@@ -128,7 +131,7 @@ public class NotificationsFragment extends Fragment {
         questionMainResponseModelList.add(questionMainResponseModel2);
 
         TestAdapter testAdapter = new TestAdapter(getContext(), questionMainResponseModelList);
-        mTestRecyclerView.setAdapter(testAdapter);
+        mTestRecyclerView.setAdapter(testAdapter);*/
     }
 
     private void initViews() {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.patelheggere.harshaacademy.R;
+import com.patelheggere.harshaacademy.utils.Constants;
+import com.patelheggere.harshaacademy.utils.SharedPrefsHelper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,7 +19,13 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                if( (SharedPrefsHelper.getInstance().get(Constants.FIRST_TIME)!=null) && (!(boolean)SharedPrefsHelper.getInstance().get(Constants.FIRST_TIME)))
+                {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
+                else{
+                    startActivity(new Intent(SplashActivity.this, RegistrationActivity.class));
+                }
             }
         }, 3000);
     }

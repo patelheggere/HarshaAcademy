@@ -3,35 +3,57 @@ package com.patelheggere.harshaacademy.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MCQQuestionModel implements Parcelable {
     private String title;
-    private List<String> options;
+    private List<String> optionsList;
     int rightAnswerIndex;
     int index;
+    int sl_no;
+    String options;
+    long timeTaken;
     int selectedOptionIndex = -1;
     String mQuestionURL;
+        String TestID, UserID;
 
     public MCQQuestionModel() {
     }
 
-    public MCQQuestionModel(int index, String title, String mQuestionURL, List<String> options, int rightAnswerIndex, int selectedOptionIndex) {
-        this.title = title;
-        this.options = options;
-        this.rightAnswerIndex = rightAnswerIndex;
-        this.selectedOptionIndex = selectedOptionIndex;
-        this.index = index;
-        this.mQuestionURL = mQuestionURL;
-    }
 
     protected MCQQuestionModel(Parcel in) {
         title = in.readString();
-        options = in.createStringArrayList();
+        optionsList = in.createStringArrayList();
         rightAnswerIndex = in.readInt();
-        selectedOptionIndex = in.readInt();
         index = in.readInt();
+        options = in.readString();
+        timeTaken = in.readLong();
+        selectedOptionIndex = in.readInt();
         mQuestionURL = in.readString();
+        TestID = in.readString();
+        UserID = in.readString();
+        sl_no = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeStringList(optionsList);
+        dest.writeInt(rightAnswerIndex);
+        dest.writeInt(index);
+        dest.writeString(options);
+        dest.writeLong(timeTaken);
+        dest.writeInt(selectedOptionIndex);
+        dest.writeString(mQuestionURL);
+        dest.writeString(TestID);
+        dest.writeString(UserID);
+        dest.writeInt(sl_no);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<MCQQuestionModel> CREATOR = new Creator<MCQQuestionModel>() {
@@ -54,24 +76,16 @@ public class MCQQuestionModel implements Parcelable {
         this.title = title;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public List<String> getOptionsList() {
+        return optionsList;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setOptionsList(List<String> optionsList) {
+        this.optionsList = optionsList;
     }
 
     public int getRightAnswerIndex() {
         return rightAnswerIndex;
-    }
-
-    public int getSelectedOptionIndex() {
-        return selectedOptionIndex;
-    }
-
-    public void setSelectedOptionIndex(int selectedOptionIndex) {
-        this.selectedOptionIndex = selectedOptionIndex;
     }
 
     public void setRightAnswerIndex(int rightAnswerIndex) {
@@ -86,6 +100,30 @@ public class MCQQuestionModel implements Parcelable {
         this.index = index;
     }
 
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
+    }
+
+    public long getTimeTaken() {
+        return timeTaken;
+    }
+
+    public void setTimeTaken(long timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
+    public int getSelectedOptionIndex() {
+        return selectedOptionIndex;
+    }
+
+    public void setSelectedOptionIndex(int selectedOptionIndex) {
+        this.selectedOptionIndex = selectedOptionIndex;
+    }
+
     public String getmQuestionURL() {
         return mQuestionURL;
     }
@@ -94,18 +132,31 @@ public class MCQQuestionModel implements Parcelable {
         this.mQuestionURL = mQuestionURL;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getTestID() {
+        return TestID;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeStringList(options);
-        dest.writeInt(rightAnswerIndex);
-        dest.writeInt(selectedOptionIndex);
-        dest.writeInt(index);
-        dest.writeString(mQuestionURL);
+    public void setTestID(String testID) {
+        TestID = testID;
+    }
+
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
+    public int getSl_no() {
+        return sl_no;
+    }
+
+    public void setSl_no(int sl_no) {
+        this.sl_no = sl_no;
+    }
+
+    public static Creator<MCQQuestionModel> getCREATOR() {
+        return CREATOR;
     }
 }

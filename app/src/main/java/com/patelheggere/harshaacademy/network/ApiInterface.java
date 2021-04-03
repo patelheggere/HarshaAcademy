@@ -1,6 +1,8 @@
 package com.patelheggere.harshaacademy.network;
 
 
+import com.patelheggere.harshaacademy.model.APIResponseModel;
+import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 import com.patelheggere.harshaacademy.model.QuestionMainResponseModel;
 
 import java.util.List;
@@ -13,8 +15,15 @@ import retrofit2.http.Query;
 
 public interface ApiInterface {
 
-    @GET("GetCategoryData.php")
-    Call<List<QuestionMainResponseModel>> GetQuestionData(@Query("phone") String phone);
+    @GET("GetAllTestsByID.php")
+    Call<List<QuestionMainResponseModel>> GetQuestionData(@Query("ID") String phone);
+
+    @POST("UploadAnswersData.php")
+    Call<APIResponseModel> UploadData(@Body List<MCQQuestionModel> mcqQuestionModels);
+
+    @GET("VerifyUser.php")
+    Call<APIResponseModel> verifyUser(@Query("phone") String phone, @Query("pwd") String pwd);
+
   /*  @GET("UpdateLoginStatus.php")
     Call<APIResponseModel> updateLogin(@Query("phone") String phone, @Query("status") String status);
 

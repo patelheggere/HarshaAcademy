@@ -68,7 +68,7 @@ public class MCQTestFragment extends Fragment {
         {
             rg.check(100+data.getSelectedOptionIndex());
         }
-        if(data.getmQuestionURL()==null)
+        if(data.getmQuestionURL()==null || data.getmQuestionURL().isEmpty())
         {
             questionImageView.setVisibility(View.GONE);
         }
@@ -85,9 +85,9 @@ public class MCQTestFragment extends Fragment {
     }
     private void initListener() {
         rg.setOrientation(RadioGroup.VERTICAL);//or RadioGroup.VERTICAL
-        for(int i=0; i<data.getOptions().size(); i++){
+        for(int i=0; i<data.getOptionsList().size(); i++){
             RadioButton rb  = new RadioButton(getContext());
-            rb.setText(data.getOptions().get(i));
+            rb.setText(data.getOptionsList().get(i));
             rb.setId(i + 100);
             rg.addView(rb);
         }

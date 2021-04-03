@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.patelheggere.harshaacademy.R;
 import com.patelheggere.harshaacademy.activity.QuestionStartActivity;
+import com.patelheggere.harshaacademy.model.MCQQuestionModel;
 import com.patelheggere.harshaacademy.model.QuestionMainResponseModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder>{
@@ -25,6 +28,16 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder>{
     public TestAdapter(Context mContext ,List<QuestionMainResponseModel> listdata) {
         this.listdata = listdata;
         this.mContext = mContext;
+        for (int i = 0; i < listdata.size(); i++)
+        {
+            List<MCQQuestionModel> lis = this.listdata.get(i).getMcqQuestionModelList();
+            for(int j=0;j<lis.size();j++){
+                String[] strarray = lis.get(j).getOptions().split(",");
+                this.listdata.get(i).getMcqQuestionModelList().get(j).setOptionsList(Arrays.asList(strarray));
+                this.listdata.get(i).getMcqQuestionModelList().get(j).setIndex(this.listdata.get(i).getMcqQuestionModelList().get(j).getSl_no()-1);
+
+            }
+        }
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
