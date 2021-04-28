@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class QuestionMainResponseModel implements Parcelable {
-    private String testID;
+    private String TestID;
     long startDateTime, endDateTime;
     long duration;
     String testTitle;
@@ -16,7 +16,7 @@ public class QuestionMainResponseModel implements Parcelable {
     }
 
     public QuestionMainResponseModel(String testTitle, String testID, long startDateTime, long endDateTime, long duration, List<MCQQuestionModel> mcqQuestionModelList) {
-        this.testID = testID;
+        this.TestID = testID;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.duration = duration;
@@ -25,7 +25,7 @@ public class QuestionMainResponseModel implements Parcelable {
     }
 
     protected QuestionMainResponseModel(Parcel in) {
-        testID = in.readString();
+        TestID = in.readString();
         startDateTime = in.readLong();
         endDateTime = in.readLong();
         duration = in.readLong();
@@ -46,11 +46,11 @@ public class QuestionMainResponseModel implements Parcelable {
     };
 
     public String getTestID() {
-        return testID;
+        return TestID;
     }
 
     public void setTestID(String testID) {
-        this.testID = testID;
+        this.TestID = testID;
     }
 
     public long getStartDateTime() {
@@ -100,7 +100,7 @@ public class QuestionMainResponseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(testID);
+        dest.writeString(TestID);
         dest.writeLong(startDateTime);
         dest.writeLong(endDateTime);
         dest.writeLong(duration);

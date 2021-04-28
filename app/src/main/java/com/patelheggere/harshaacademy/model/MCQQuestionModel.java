@@ -16,7 +16,7 @@ public class MCQQuestionModel implements Parcelable {
     long timeTaken;
     int selectedOptionIndex = -1;
     String mQuestionURL;
-        String TestID, UserID;
+    String TestID, UserID;
 
     public MCQQuestionModel() {
     }

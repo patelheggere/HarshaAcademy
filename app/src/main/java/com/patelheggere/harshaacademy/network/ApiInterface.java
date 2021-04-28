@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET("GetAllTestsByID.php")
-    Call<List<QuestionMainResponseModel>> GetQuestionData(@Query("ID") String phone);
+    Call<List<QuestionMainResponseModel>> GetQuestionData(@Query("UserID") String phone);
 
     @POST("UploadAnswersData.php")
     Call<APIResponseModel> UploadData(@Body List<MCQQuestionModel> mcqQuestionModels);
